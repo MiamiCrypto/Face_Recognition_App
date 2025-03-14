@@ -3,3 +3,4 @@ opencv-python
 numpy
 deepface
 pillow
+opencv-python-headless
