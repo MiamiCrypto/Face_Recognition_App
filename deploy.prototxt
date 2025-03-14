@@ -1,4 +1,4 @@
-name: "FaceDetector"
+name: "ResNet_SSD_FaceDetector"
 input: "data"
 input_shape {
   dim: 1
@@ -43,40 +43,19 @@ layer {
   }
 }
 layer {
-  name: "fc1"
-  type: "InnerProduct"
+  name: "detection_out"
+  type: "DetectionOutput"
   bottom: "pool1"
-  top: "fc1"
-  inner_product_param {
-    num_output: 256
-    weight_filler {
-      type: "xavier"
+  top: "detection_out"
+  detection_output_param {
+    num_classes: 2
+    share_location: true
+    background_label_id: 0
+    nms_param {
+      nms_threshold: 0.4
     }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "relu_fc1"
-  type: "ReLU"
-  bottom: "fc1"
-  top: "fc1"
-}
-layer {
-  name: "output"
-  type: "InnerProduct"
-  bottom: "fc1"
-  top: "output"
-  inner_product_param {
-    num_output: 2
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
+    code_type: CENTER_SIZE
+    keep_top_k: 200
+    confidence_threshold: 0.5
   }
 }
