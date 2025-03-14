@@ -14,6 +14,7 @@ caffemodel_path = os.path.join(BASE_DIR, "res10_300x300_ssd_iter_140000_fp16.caf
 net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
 if net.empty():
     st.error("Error: Model failed to load. Ensure 'deploy.prototxt' and 'res10_300x300_ssd_iter_140000_fp16.caffemodel' exist and are accessible.")
+    st.stop()
 
 # Streamlit UI Setup
 st.set_page_config(page_title="Face Detection App", layout="wide")
@@ -65,8 +66,11 @@ if page == "Face Detection":
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
             cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
             st.markdown(f"[Download Output Image](data:image/jpg;base64,{temp_file.name})")
+        except cv2.error as e:
+            st.error(f"OpenCV Error: {e}")
+            st.stop()
         except Exception as e:
-            st.error(f"Error processing image: {e}")
+            st.error(f"Unexpected Error: {e}")
 
 elif page == "About":
     st.title("About This App")
