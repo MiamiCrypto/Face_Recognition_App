@@ -43,6 +43,7 @@ if page == "Face Detection":
         # Convert to blob and detect faces
         blob = cv2.dnn.blobFromImage(image_np, scalefactor=1.0, size=(300, 300), 
                                      mean=(104.0, 177.0, 123.0), swapRB=False, crop=False)
+        st.write(f"Blob shape: {blob.shape}")  # Debugging log
         net.setInput(blob)
 
         try:
