@@ -11,9 +11,14 @@ prototxt_path = os.path.join(BASE_DIR, "deploy.prototxt")
 caffemodel_path = os.path.join(BASE_DIR, "res10_300x300_ssd_iter_140000_fp16.caffemodel")
 
 # Load the model with error handling
-net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
-if net.empty():
-    st.error("Error: Model failed to load. Ensure 'deploy.prototxt' and 'res10_300x300_ssd_iter_140000_fp16.caffemodel' exist and are accessible.")
+try:
+    net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
+    if net.empty():
+        st.error("Error: Model failed to load. Ensure 'deploy.prototxt' and 'res10_300x300_ssd_iter_140000_fp16.caffemodel' are correct.")
+        st.stop()
+    st.success("Model loaded successfully!")
+except Exception as e:
+    st.error(f"Model loading error: {e}")
     st.stop()
 
 # Streamlit UI Setup
