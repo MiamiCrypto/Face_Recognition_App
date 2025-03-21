@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import os
-import tempfile
+tempfile
 import time
 
 # Streamlit UI Setup
@@ -33,6 +33,7 @@ if os.path.exists(logo_path):
     st.sidebar.image(logo_path, width=150)
 
 st.sidebar.title("Settings")
+st.sidebar.markdown("Confidence Threshold: Adjusting this value controls the sensitivity of detection. Lower values detect more features, but may include false positives. Higher values are more selective.")
 detection_type = st.sidebar.selectbox("Choose Detection Type", ["Face", "Eyes", "Mouth"])
 confidence_threshold = st.sidebar.slider("Confidence Threshold", 0.0, 1.0, 0.5, 0.01)
 bbox_color = st.sidebar.color_picker("Bounding Box Color", "#00FF00")
@@ -56,17 +57,20 @@ if uploaded_file is not None:
             if confidence > confidence_threshold:
                 box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (startX, startY, endX, endY) = box.astype("int")
-                cv2.rectangle(image_np, (startX, startY), (endX, endY), (0, 255, 0), 2)
+                color = tuple(int(bbox_color[i:i+2], 16) for i in (1, 3, 5))
+                cv2.rectangle(image_np, (startX, startY), (endX, endY), color, 2)
     elif detection_type == "Eyes":
         gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
         eyes = eye_cascade.detectMultiScale(gray, 1.3, 5)
         for (ex, ey, ew, eh) in eyes:
-            cv2.rectangle(image_np, (ex, ey), (ex+ew, ey+eh), (255, 0, 0), 2)
+            color = tuple(int(bbox_color[i:i+2], 16) for i in (1, 3, 5))
+            cv2.rectangle(image_np, (ex, ey), (ex+ew, ey+eh), color, 2)
     elif detection_type == "Mouth":
         gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
         mouths = mouth_cascade.detectMultiScale(gray, 1.7, 11)
         for (mx, my, mw, mh) in mouths:
-            cv2.rectangle(image_np, (mx, my), (mx+mw, my+mh), (0, 0, 255), 2)
+            color = tuple(int(bbox_color[i:i+2], 16) for i in (1, 3, 5))
+            cv2.rectangle(image_np, (mx, my), (mx+mw, my+mh), color, 2)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -77,6 +81,10 @@ if uploaded_file is not None:
     cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
     with open(temp_file.name, "rb") as file:
         st.download_button("Download Output Image", data=file, file_name="output.jpg", mime="image/jpeg")
+
+# About Section
+if st.sidebar.button("About"):
+    st.sidebar.markdown("### Feature Detection App\nThis application uses OpenCV's deep learning models to detect faces, eyes, and mouths.\n- Adjust the confidence threshold to control sensitivity.\n- Choose bounding box colors to customize output.\n- Use the download button to save the output image.\n\n**Developed using Streamlit and OpenCV.**")
 
 
 
