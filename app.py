@@ -9,6 +9,15 @@ import time
 # Streamlit UI Setup
 st.set_page_config(page_title="Feature Detection App", layout="wide")
 
+st.markdown(
+    """
+    <h1 style='text-align: center; font-size: 3em; margin-bottom: 0.5em; color: #4CAF50;'>Face Feature Recognition</h1>
+    <h3 style='text-align: center; font-size: 1.5em; color: #555;'>Detect faces, eyes, and smiles with ease!</h3>
+    """,
+    unsafe_allow_html=True
+)
+
+
 # Load OpenCV's pre-trained deep learning face detection model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 prototxt_path = os.path.join(BASE_DIR, "deploy.prototxt")
