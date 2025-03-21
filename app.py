@@ -28,10 +28,10 @@ mouth_cascade_path = os.path.join(BASE_DIR, "haarcascade_smile.xml")
 
 try:
     net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
-    st.success("Face model loaded successfully!")
+    #st.success("Face model loaded successfully!")
     eye_cascade = cv2.CascadeClassifier(eye_cascade_path)
     mouth_cascade = cv2.CascadeClassifier(mouth_cascade_path)
-    st.success("Eye and mouth models loaded successfully!")
+    #st.success("Eye and mouth models loaded successfully!")
 except Exception as e:
     st.error(f"Model loading error: {e}")
     st.stop()
