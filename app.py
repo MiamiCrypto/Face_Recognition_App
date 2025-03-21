@@ -5,9 +5,6 @@ from PIL import Image
 import os
 import tempfile
 
-# Streamlit UI Setup (MUST BE FIRST Streamlit command)
-st.set_page_config(page_title="Face Detection App", layout="wide")
-
 # Load OpenCV's pre-trained deep learning face detection model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 prototxt_path = os.path.join(BASE_DIR, "deploy.prototxt")
@@ -17,12 +14,15 @@ caffemodel_path = os.path.join(BASE_DIR, "res10_300x300_ssd_iter_140000_fp16.caf
 try:
     net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
     if net.empty():
-        st.error("Error: Model failed to load. Ensure 'deploy.prototxt' and 'res10_300x300_ssd_iter_140000_fp16.caffemodel' are correct.")
+        st.error("Error: Model failed to load. Ensure 'deploy.prototxt' and 'res10_300x300_ssd_iter_140000_fp16.caffemodel' exist and are accessible.")
         st.stop()
     st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Model loading error: {e}")
     st.stop()
+
+# Streamlit UI Setup
+st.set_page_config(page_title="Face Detection App", layout="wide")
 
 # Add Logo at the Top of the Sidebar
 logo_path = os.path.join(BASE_DIR, "Mask.png")
@@ -34,9 +34,8 @@ page = st.sidebar.radio("Go to", ["Face Detection", "About"])
 
 if page == "Face Detection":
     st.title("OpenCV Deep Learning Based Face Detection")
-    
     uploaded_file = st.file_uploader("Choose a File", type=["jpg", "jpeg", "png"])
-    
+
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         image_np = np.array(image)
@@ -67,16 +66,12 @@ if page == "Face Detection":
             with col2:
                 st.image(image_np, caption="Output Image", use_container_width=True)
 
-            # # Save processed image for download
-            # temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
-            # cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
-            # st.markdown(f"[Download Output Image](data:image/jpg;base64,{temp_file.name})")
-        # Save processed image for download
+            # Save processed image for download
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
             cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
 
             with open(temp_file.name, "rb") as file:
-                btn = st.download_button(
+                st.download_button(
                     label="Download Output Image",
                     data=file,
                     file_name="output.jpg",
