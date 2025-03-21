@@ -5,6 +5,9 @@ from PIL import Image
 import os
 import tempfile
 
+# Streamlit UI Setup (MUST BE FIRST Streamlit command)
+st.set_page_config(page_title="Face Detection App", layout="wide")
+
 # Load OpenCV's pre-trained deep learning face detection model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 prototxt_path = os.path.join(BASE_DIR, "deploy.prototxt")
@@ -20,9 +23,6 @@ try:
 except Exception as e:
     st.error(f"Model loading error: {e}")
     st.stop()
-
-# Streamlit UI Setup
-st.set_page_config(page_title="Face Detection App", layout="wide")
 
 # Add Logo at the Top of the Sidebar
 logo_path = os.path.join(BASE_DIR, "Mask.png")
