@@ -91,10 +91,13 @@ if uploaded_file is not None:
     with open(temp_file.name, "rb") as file:
         st.download_button("Download Output Image", data=file, file_name="output.jpg", mime="image/jpeg")
 
-# About Section
-if st.sidebar.button("About"):
-    st.sidebar.markdown("### Feature Detection App\nThis application uses OpenCV's deep learning models to detect faces, eyes, and mouths.\n- Adjust the confidence threshold to control sensitivity.\n- Choose bounding box colors to customize output.\n- Use the download button to save the output image.\n\n**Developed using Streamlit and OpenCV.**")
+# # About Section
+# if st.sidebar.button("About"):
+#     st.sidebar.markdown("### Feature Detection App\nThis application uses OpenCV's deep learning models to detect faces, eyes, and mouths.\n- Adjust the confidence threshold to control sensitivity.\n- Choose bounding box colors to customize output.\n- Use the download button to save the output image.\n\n**Developed using Streamlit and OpenCV.**")
 
+# About Section
+if st.sidebar.checkbox("About"):
+    st.sidebar.markdown("### Face Feature Recognition App\nThis application uses OpenCV's deep learning models to detect faces, eyes, and mouths.\n- Adjust the confidence threshold to control sensitivity.\n- Choose bounding box colors to customize output.\n- Use the download button to save the output image.\n\n**Developed using Streamlit and OpenCV.**")
 
 
 # import streamlit as st
