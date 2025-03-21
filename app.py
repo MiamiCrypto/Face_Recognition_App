@@ -63,9 +63,9 @@ if page == "Face Detection":
 
             col1, col2 = st.columns(2)
             with col1:
-                st.image(image, caption="Uploaded Image", use_column_width=True)
+                st.image(image, caption="Uploaded Image", use_container_width=True)
             with col2:
-                st.image(image_np, caption="Output Image", use_column_width=True)
+                st.image(image_np, caption="Output Image", use_container_width=True)
 
             # Save processed image for download
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
