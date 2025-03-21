@@ -67,10 +67,22 @@ if page == "Face Detection":
             with col2:
                 st.image(image_np, caption="Output Image", use_container_width=True)
 
-            # Save processed image for download
+            # # Save processed image for download
+            # temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
+            # cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
+            # st.markdown(f"[Download Output Image](data:image/jpg;base64,{temp_file.name})")
+        # Save processed image for download
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
             cv2.imwrite(temp_file.name, cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
-            st.markdown(f"[Download Output Image](data:image/jpg;base64,{temp_file.name})")
+
+            with open(temp_file.name, "rb") as file:
+                btn = st.download_button(
+                    label="Download Output Image",
+                    data=file,
+                    file_name="output.jpg",
+                    mime="image/jpeg"
+                )
+
         except cv2.error as e:
             st.error(f"OpenCV Error: {e}")
             st.stop()
