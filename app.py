@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import os
+import tempfile
 import time
 
 # Streamlit UI Setup
