@@ -11,7 +11,7 @@ st.set_page_config(page_title="Feature Detection App", layout="wide")
 
 st.markdown(
     """
-    <h1 style='text-align: center; font-size: 3em; margin-bottom: 0.5em; color: #4CAF50;'>Face Feature Recognition</h1>
+    <h1 style='text-align: center; font-size: 3em; margin-bottom: 0.5em; color: #ffffff;'>Face Feature Recognition</h1>
     <h3 style='text-align: center; font-size: 1.5em; color: #555;'>Detect faces, eyes, and smiles with ease!</h3>
     """,
     unsafe_allow_html=True
